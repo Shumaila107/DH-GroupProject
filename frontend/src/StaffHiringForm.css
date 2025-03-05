@@ -2,9 +2,9 @@ body {
     font-family: sans-serif;
     background-color: #f4f4f4;
     display: flex;
-    justify-content: center; /* Center horizontally */
-  align-items: flex-start; /* Align to top */
-  min-height: 20vh; /* Ensure full height for centering */
+    justify-content: center; 
+  align-items: flex-start; 
+  min-height: 20vh; 
   margin: 2;
   }
   
