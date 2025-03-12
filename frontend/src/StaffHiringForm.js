@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './StaffHiringForm.css'; // Import the CSS file
+import './StaffHiringForm.css'; 
 
 const StaffHiringForm = () => {
   const [formData, setFormData] = useState({
@@ -26,7 +26,6 @@ const StaffHiringForm = () => {
       const response = await axios.post('http://localhost:3001/api/hire-staff', formData);
       alert(response.data.message);
       
-      // Reset the form after submission
       setFormData({
         FNAME: '',
         LNAME: '',
@@ -45,7 +44,6 @@ const StaffHiringForm = () => {
   };
 
   const handleCancel = () => {
-    // Reset form data on cancel
     setFormData({
       FNAME: '',
       LNAME: '',
@@ -71,7 +69,7 @@ const StaffHiringForm = () => {
             name="FNAME"
             value={formData.FNAME}
             onChange={handleChange}
-            required // Make this field required
+            required 
           />
         </div>
         <div className="form-row">
@@ -82,7 +80,7 @@ const StaffHiringForm = () => {
             name="LNAME"
             value={formData.LNAME}
             onChange={handleChange}
-            required // Make this field required
+            required 
           />
         </div>
         <div className="form-row">
@@ -93,7 +91,7 @@ const StaffHiringForm = () => {
             name="POSITION"
             value={formData.POSITION}
             onChange={handleChange}
-            required // Make this field required
+            required 
           />
         </div>
         <div className="form-row">
@@ -104,7 +102,7 @@ const StaffHiringForm = () => {
             name="BRANCHNO"
             value={formData.BRANCHNO}
             onChange={handleChange}
-            required // Make this field required
+            required 
           />
         </div>
         <div className="form-row">
@@ -115,7 +113,7 @@ const StaffHiringForm = () => {
             name="DOB"
             value={formData.DOB}
             onChange={handleChange}
-            required // Make this field required
+            required 
           />
         </div>
         <div className="form-row">
@@ -126,7 +124,7 @@ const StaffHiringForm = () => {
             name="SALARY"
             value={formData.SALARY}
             onChange={handleChange}
-            required // Make this field required
+            required 
           />
         </div>
         <div className="form-row">
@@ -137,7 +135,7 @@ const StaffHiringForm = () => {
             name="TELEPHONE"
             value={formData.TELEPHONE}
             onChange={handleChange}
-            required // Make this field required
+            required 
           />
         </div>
         <div className="form-row">
@@ -148,7 +146,7 @@ const StaffHiringForm = () => {
             name="MOBILE"
             value={formData.MOBILE}
             onChange={handleChange}
-            required // Make this field required
+            required 
           />
         </div>
         <div className="form-row">
@@ -159,7 +157,7 @@ const StaffHiringForm = () => {
             name="EMAIL"
             value={formData.EMAIL}
             onChange={handleChange}
-            required // Make this field required
+            required 
           />
         </div>
 
