@@ -9,7 +9,7 @@ const MainMenu = () => {
   return (
     <div className="main-menu-container">
       <h1>Main Menu</h1>
-      <button onClick={() => navigate('/hiring')}>Staff Main Menu</button>
+      <button onClick={() => navigate('/staff')}>Staff Main Menu</button>
       <button onClick={() => navigate('/branch')}>Branch Main Menu</button>
       <button onClick={() => navigate('/client')}>Client Main Menu</button>
     </div>
