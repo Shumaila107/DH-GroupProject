@@ -1,0 +1,68 @@
+/* Ensure navbar spans full width and is properly aligned */
+.navbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to right, #1d4ed8, #7b2cbf); /* Rich blue-purple gradient */
+    padding: 15px 30px;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+/* Left section: Home icon + DreamHome */
+.nav-left {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0; /* Prevents shrinking */
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+    transition: transform 0.2s ease-in-out;
+    white-space: nowrap; /* Prevents text from wrapping */
+}
+
+.nav-logo:hover {
+    transform: scale(1.1);
+}
+
+/* Home Icon Styling */
+.home-icon {
+    margin-right: 10px;
+    font-size: 26px;
+}
+
+/* Right section: Menu links */
+.nav-right {
+    display: flex;
+    gap: 25px;
+    flex-wrap: nowrap; /* Prevents wrapping */
+    margin-right: 50px; /* ✅ Adds spacing so items don't go to extreme right */
+}
+
+/* Navigation links */
+.nav-link {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 10px 15px;
+    border-radius: 6px;
+    transition: background 0.3s, transform 0.2s ease-in-out;
+    white-space: nowrap; /* Ensures text stays in one line */
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}

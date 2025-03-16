@@ -1,0 +1,83 @@
+/* Base container styling */
+.homepage-container {
+    max-width: 1400px; /* Increased width by 300px */
+    margin: auto;
+    padding: 60px 20px;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Header Styling */
+.homepage-header h1 {
+    font-size: 2.5rem;
+    color: #1d4ed8;
+    font-weight: 700;
+    margin-top: 100px;
+    margin-bottom: 10px;
+}
+
+.subheading {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+/* About Section */
+.about-section {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 40px;
+}
+
+.about-section h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.about-section p {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Core Functionalities Section */
+.core-functionalities h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+/* Card container */
+.card-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Individual card styling */
+.card {
+    width: 350px; /* Wider Cards */
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    text-align: center;
+}
+
+.card h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Hover effect for cards */
+.card:hover {
+    transform: translateY(-5px);
+}
