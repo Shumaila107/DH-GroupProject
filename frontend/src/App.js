@@ -3,6 +3,8 @@ import NavBar from "./components/NavBar";
 import HomePage from "./components/HomePage";
 import StaffHiringForm from "./components/StaffHiringForm";
 import StaffList from "./components/StaffList";
+import EditStaff from "./components/EditStaff";
+
 
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/staff" element={<StaffList />} />
       <Route path="/staff/hire" element={<StaffHiringForm />} />
+      <Route path="/edit-staff/:staffId" element={<EditStaff />} />
+
     </Routes>
     </div>
   );

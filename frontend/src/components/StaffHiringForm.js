@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./StaffHiringForm.css"; // Import styles
+import "./StaffHiringForm.css";
 
 const StaffHiringForm = () => {
   const [staffData, setStaffData] = useState({
@@ -19,8 +19,8 @@ const StaffHiringForm = () => {
 
   const [branches, setBranches] = useState([]);
   const [loadingBranches, setLoadingBranches] = useState(true);
+  const [errors, setErrors] = useState({});
 
-  // Fetch branches from API
   useEffect(() => {
     const fetchBranches = async () => {
       try {
@@ -39,29 +39,64 @@ const StaffHiringForm = () => {
     fetchBranches();
   }, []);
 
+  const validateField = (name, value) => {
+    let error = "";
+    switch (name) {
+      case "staffno":
+        if (!/^[a-zA-Z0-9]+$/.test(value)) error = "Staff number must be alphanumeric.";
+        break;
+      case "firstName":
+      case "lastName":
+        if (!/^[a-zA-Z]+$/.test(value)) error = "Only alphabets are allowed.";
+        break;
+      case "dob":
+        if (new Date(value) >= new Date()) error = "Date of birth must be in the past.";
+        break;
+      case "salary":
+        if (value <= 0) error = "Salary must be a positive number.";
+        break;
+      case "telephone":
+      case "mobile":
+        if (!/^\d+$/.test(value)) error = "Only numbers are allowed.";
+        break;
+      case "email":
+        if (!/\S+@\S+\.\S+/.test(value)) error = "Invalid email format.";
+        break;
+      case "sex":
+        if (!value) error = "Gender selection is required.";
+        break;
+      default:
+        break;
+    }
+    return error;
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setStaffData({ ...staffData, [name]: value });
+
+    // Validate field in real-time
+    setErrors({ ...errors, [name]: validateField(name, value) });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const dataToSend = {
-        staffno: staffData.staffno,
-        fname: staffData.firstName,
-        lname: staffData.lastName,
-        position: staffData.position,
-        branchno: staffData.branchno,
-        dob: staffData.dob,
-        salary: staffData.salary,
-        telephone: staffData.telephone,
-        mobile: staffData.mobile,
-        email: staffData.email,
-        sex: staffData.sex,
-      };
+    
+    // Validate all fields before submission
+    const newErrors = {};
+    Object.keys(staffData).forEach((key) => {
+      const error = validateField(key, staffData[key]);
+      if (error) newErrors[key] = error;
+    });
 
-      const response = await axios.post("http://localhost:8080/staff/hire", dataToSend);
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      alert("Please fix the highlighted errors.");
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:8080/staff/hire", staffData);
 
       if (response.data.success) {
         alert("Success: " + response.data.message);
@@ -78,10 +113,10 @@ const StaffHiringForm = () => {
           email: "",
           sex: "",
         });
+        setErrors({});
       }
     } catch (error) {
-      const errorMessage = error.response?.data?.message || error.message;
-      alert(`Error: ${errorMessage}`);
+      alert(`Error: ${error.response?.data?.message || error.message}`);
       console.error("Hiring Error:", error);
     }
   };
@@ -90,25 +125,18 @@ const StaffHiringForm = () => {
     <div className="staff-hiring-container">
       <h2>Hire New Staff</h2>
       <form onSubmit={handleSubmit} className="staff-form">
-        <div className="form-group">
-          <label>Staff Number:</label>
-          <input name="staffno" value={staffData.staffno} onChange={handleChange} required />
-        </div>
-
-        <div className="form-group">
-          <label>First Name:</label>
-          <input name="firstName" value={staffData.firstName} onChange={handleChange} required />
-        </div>
-
-        <div className="form-group">
-          <label>Last Name:</label>
-          <input name="lastName" value={staffData.lastName} onChange={handleChange} required />
-        </div>
-
-        <div className="form-group">
-          <label>Position:</label>
-          <input name="position" value={staffData.position} onChange={handleChange} required />
-        </div>
+        {[
+          { label: "Staff Number", name: "staffno" },
+          { label: "First Name", name: "firstName" },
+          { label: "Last Name", name: "lastName" },
+          { label: "Position", name: "position" },
+        ].map(({ label, name }) => (
+          <div className="form-group" key={name}>
+            <label>{label}:</label>
+            <input name={name} value={staffData[name]} onChange={handleChange} required />
+            {errors[name] && <span style={{ color: "red", fontSize: "14px", marginTop: "5px", fontWeight: "bold" }}>{errors[name]}</span>}
+          </div>
+        ))}
 
         <div className="form-group">
           <label>Branch:</label>
@@ -120,32 +148,22 @@ const StaffHiringForm = () => {
               </option>
             ))}
           </select>
+          {errors.branchno && <span style={{ color: "red", fontSize: "14px", marginTop: "5px", fontWeight: "bold" }}>{errors.branchno}</span>}
         </div>
 
-        <div className="form-group">
-          <label>Date of Birth:</label>
-          <input name="dob" type="date" value={staffData.dob} onChange={handleChange} required />
-        </div>
-
-        <div className="form-group">
-          <label>Salary:</label>
-          <input name="salary" type="number" value={staffData.salary} onChange={handleChange} required />
-        </div>
-
-        <div className="form-group">
-          <label>Telephone:</label>
-          <input name="telephone" value={staffData.telephone} onChange={handleChange} required />
-        </div>
-
-        <div className="form-group">
-          <label>Mobile:</label>
-          <input name="mobile" value={staffData.mobile} onChange={handleChange} required />
-        </div>
-
-        <div className="form-group">
-          <label>Email:</label>
-          <input name="email" type="email" value={staffData.email} onChange={handleChange} required />
-        </div>
+        {[
+          { label: "Date of Birth", name: "dob", type: "date" },
+          { label: "Salary", name: "salary", type: "number" },
+          { label: "Telephone", name: "telephone" },
+          { label: "Mobile", name: "mobile" },
+          { label: "Email", name: "email", type: "email" },
+        ].map(({ label, name, type = "text" }) => (
+          <div className="form-group" key={name}>
+            <label>{label}:</label>
+            <input name={name} type={type} value={staffData[name]} onChange={handleChange} required />
+            {errors[name] && <span style={{ color: "red", fontSize: "14px", marginTop: "5px", fontWeight: "bold" }}>{errors[name]}</span>}
+          </div>
+        ))}
 
         <div className="form-group">
           <label>Gender:</label>
@@ -154,6 +172,7 @@ const StaffHiringForm = () => {
             <option value="M">Male</option>
             <option value="F">Female</option>
           </select>
+          {errors.sex && <span style={{ color: "red", fontSize: "14px", marginTop: "5px", fontWeight: "bold" }}>{errors.sex}</span>}
         </div>
 
         <button type="submit" className="submit-btn">Hire Staff</button>

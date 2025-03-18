@@ -1,7 +1,8 @@
 .staff-hiring-container {
   max-width: 600px;
   margin: 40px auto;
-  background: #fff;
+  margin-top: 100px;
+  background: lavender;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -21,6 +22,8 @@
 .form-group {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
+  margin-bottom: 10px;
 }
 
 label {
@@ -30,7 +33,7 @@ label {
 }
 
 input, select {
-  padding: 8px;
+  padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -54,4 +57,29 @@ input:focus, select:focus {
 
 .submit-btn:hover {
   background-color: #0056b3;
+}
+
+/* Error message styling */
+.error-message {
+  color: red !important;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* Highlight invalid input fields */
+input.error, select.error {
+  border: 1px solid red;
+  background-color: #ffe6e6;
+}
+
+/* Ensure spacing between input and error messages */
+.form-group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Align error message properly under inputs */
+.form-group .error-message {
+  margin-top: 3px;
 }
