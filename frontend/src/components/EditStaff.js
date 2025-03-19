@@ -88,7 +88,7 @@ const EditStaff = () => {
 
       if (response.status === 200) {
         alert("Staff details updated successfully.");
-        navigate(`/`); // Redirect back to staff list
+        navigate(`/staff`); // Redirect back to staff list
       }
     } catch (error) {
       console.error('Error updating staff:', error);
