@@ -5,8 +5,8 @@ import "./StaffHiringForm.css";
 const StaffHiringForm = () => {
   const [staffData, setStaffData] = useState({
     staffno: "",
-    firstName: "",
-    lastName: "",
+    fname: "",
+    lname: "",
     position: "",
     branchno: "",
     dob: "",
@@ -45,8 +45,8 @@ const StaffHiringForm = () => {
       case "staffno":
         if (!/^[a-zA-Z0-9]+$/.test(value)) error = "Staff number must be alphanumeric.";
         break;
-      case "firstName":
-      case "lastName":
+      case "fname":
+      case "lname":
         if (!/^[a-zA-Z]+$/.test(value)) error = "Only alphabets are allowed.";
         break;
       case "dob":
@@ -102,8 +102,8 @@ const StaffHiringForm = () => {
         alert("Success: " + response.data.message);
         setStaffData({
           staffno: "",
-          firstName: "",
-          lastName: "",
+          fname: "",
+          lname: "",
           position: "",
           branchno: "",
           dob: "",
@@ -127,8 +127,8 @@ const StaffHiringForm = () => {
       <form onSubmit={handleSubmit} className="staff-form">
         {[
           { label: "Staff Number", name: "staffno" },
-          { label: "First Name", name: "firstName" },
-          { label: "Last Name", name: "lastName" },
+          { label: "First Name", name: "fname" },
+          { label: "Last Name", name: "lname" },
           { label: "Position", name: "position" },
         ].map(({ label, name }) => (
           <div className="form-group" key={name}>
