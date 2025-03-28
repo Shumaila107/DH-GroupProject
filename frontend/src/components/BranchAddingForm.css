@@ -1,0 +1,79 @@
+.branch-adding-container {
+    max-width: 600px;
+    margin: 40px auto;
+    margin-top: 100px;
+    background: lavender;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.branch-adding-container h2 {
+    text-align: center;
+    color: #333;
+}
+
+.branch-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+input, select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+input:focus, select:focus {
+    border-color: #007BFF;
+    outline: none;
+    box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.5);
+}
+
+.submit-btn {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px;
+    border: none;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Error message styling */
+.error-message {
+    color: red !important;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* Highlight invalid input fields */
+input.error, select.error {
+    border: 1px solid red;
+    background-color: #ffe6e6;
+}
+
+/* Ensure spacing between input and error messages */
+.form-group .error-message {
+    margin-top: 3px;
+}
