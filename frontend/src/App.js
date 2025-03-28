@@ -7,6 +7,9 @@ import EditStaff from "./components/EditStaff";
 import BranchAddress from "./components/BranchAddress";
 import EditBranch from "./components/EditBranch";
 import OpenBranch from "./components/OpenBranch";
+import ClientList from "./components/ClientList";
+import ClientAddingForm from "./components/ClientAddingForm";
+import EditClient from "./components/EditClient";
 
 
 function App() {
@@ -20,8 +23,12 @@ function App() {
       <Route path="/edit-staff/:staffId" element={<EditStaff />} />
       {/* New routes for Branch Management */}
       <Route path="/branch-address" element={<BranchAddress />} />
-        <Route path="/edit-branch" element={<EditBranch />} />
-        <Route path="/open-branch" element={<OpenBranch />} />
+      <Route path="/edit-branch" element={<EditBranch />} />
+      <Route path="/open-branch" element={<OpenBranch />} />
+     {/* New routes for Client Management */}
+      <Route path="/client" element={<ClientList />} />
+      <Route path="/clients/add" element={<ClientAddingForm />} />
+      <Route path="/edit-client/N/A" element={<EditClient />} />    
     </Routes>
     </div>
   );
