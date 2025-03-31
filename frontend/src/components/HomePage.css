@@ -1,65 +1,129 @@
-/* Base container styling */
-.homepage-container {
-    max-width: 1400px; /* Increased width by 300px */
-    margin: auto;
-    padding: 60px 20px;
-    background-color: lavender;
-    text-align: center;
+.homepage-wrapper {
     font-family: 'Poppins', sans-serif;
-}
-
-/* Header Styling */
-.homepage-header h1 {
-    font-size: 2.5rem;
-    color: darkblue;
-    font-weight: 700;
-    margin-top: 100px;
-    margin-bottom: 100px;
-}
-
-.subheading {
+    margin-top: 70px;
+  }
+  
+  /* Hero Section */
+  .hero-section {
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  .hero-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background-color: rgba(0,0,0,0.6);
+    padding: 50px;
+    border-radius: 12px;
+    color: #fff;
+  }
+  .hero-overlay h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+  .hero-overlay p {
     font-size: 1.2rem;
-    color: #555;
-    margin-bottom: 80px;
-}
-
-/* Core Functionalities Section */
-.core-functionalities h2 {
-    font-size: 1.8rem;
-    margin-bottom: 40px;
-}
-
-/* Card container */
-.card-container {
+    margin-bottom: 30px;
+  }
+  .hero-overlay button {
+    background: #ffd700;
+    padding: 12px 25px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  /* Counters + Functionalities */
+  .counter-description-section {
     display: flex;
     justify-content: center;
+    gap: 30px;
     flex-wrap: wrap;
-    gap: 20px;
-}
-
-/* Individual card styling */
-.card {
-    width: 350px; /* Wider Cards */
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out;
+    background: #f9f9f9;
+    padding: 60px 20px;
+  }
+  .feature-card {
+    width: 300px;
+    background: lavender;
     text-align: center;
-}
-
-.card h3 {
-    font-size: 1.5rem;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-.card p {
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  .feature-card .counter {
+    font-size: 3rem;
+    color: #4f46e5;
+  }
+  .feature-card h3 {
+    font-size: 1.4rem;
+    margin: 15px 0 10px;
+  }
+  .feature-card p {
     font-size: 1rem;
-    color: #666;
+    color: #333;
+  }
+  .feature-card:hover,
+.property-card:hover {
+  transform: translateY(-8px);
+  transition: transform 0.3s ease;
 }
+  
+  /* Property Cards Section */
+  .property-section {
+    text-align: center;
+    padding: 80px 20px;
+    background-color: #fff;
+  }
+  .property-section h2 {
+    font-size: 2rem;
+    margin-bottom: 40px;
+  }
+  .property-cards {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  .property-card {
+    width: 300px;
+    background: #fafafa;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  .property-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  .property-info {
+    padding: 20px;
+    text-align: left;
+  }
+  .property-info p {
+    margin: 8px 0;
+  }
 
-/* Hover effect for cards */
-.card:hover {
-    transform: translateY(-5px);
-}
+  .live-counter h1 {
+    font-size: 3rem;
+    color: #4f46e5;
+    margin: 10px 0 5px;
+  }
+  
+  .live-label {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #222;
+  }
+  
+  .live-subtext {
+    font-size: 0.9rem;
+    color: #777;
+    margin-top: 4px;
+  }
+  

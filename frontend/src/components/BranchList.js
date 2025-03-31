@@ -9,6 +9,8 @@ const BranchList = () => {
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState(""); // New state for search query
   const navigate = useNavigate(); // For Navigation
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
 
   useEffect(() => {
     fetchBranches();
@@ -79,6 +81,12 @@ const BranchList = () => {
     )
   );
 
+  const totalPages = Math.ceil(filteredBranches.length / itemsPerPage);
+  const paginatedBranches = filteredBranches.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div className="branch-container">
       <h1>Branch List</h1>
@@ -111,37 +119,34 @@ const BranchList = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredBranches.map((branch, index) => (
-                <tr
-                  key={branch.branchNo}
-                  className={index % 2 === 0 ? "even-row" : "odd-row"}
-                >
+            {paginatedBranches.map((branch, index) => (
+                <tr key={branch.branchNo} className={index % 2 === 0 ? "even-row" : "odd-row"}>
                   <td>{branch.branchNo}</td>
                   <td>{branch.street}</td>
                   <td>{branch.city}</td>
                   <td>{branch.postcode}</td>
                   <td>
-                    <button
-                      className="edit-btn"
-                      onClick={() => handleEdit(branch.branchNo)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="delete-btn"
-                      onClick={() => handleDelete(branch.branchNo)}
-                    >
-                      Delete
-                    </button>
+                    <button className="edit-btn" onClick={() => handleEdit(branch.branchNo)}>Edit</button>
+                    <button className="delete-btn" onClick={() => handleDelete(branch.branchNo)}>Delete</button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+
+          {/* Pagination controls */}
+          <div className="pagination">
+            <button onClick={() => setCurrentPage((p) => p - 1)} disabled={currentPage === 1}>
+              Prev
+            </button>
+            <span>Page {currentPage} of {totalPages}</span>
+            <button onClick={() => setCurrentPage((p) => p + 1)} disabled={currentPage === totalPages}>
+              Next
+            </button>
+          </div>
         </>
       )}
     </div>
   );
 };
-
 export default BranchList;

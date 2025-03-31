@@ -4,10 +4,10 @@ import "./ClientAddingForm.css";
 
 const ClientAddingForm = () => {
   const [clientData, setClientData] = useState({
-    clientno: "",
+    clientNo: "",
     fname: "",
     lname: "",
-    telephone: "",
+    telno: "",
     street: "",
     city: "",
     email: "",
@@ -20,7 +20,7 @@ const ClientAddingForm = () => {
   const validateField = (name, value) => {
     let error = "";
     switch (name) {
-      case "clientno":
+      case "clientNo":
         if (!/^[a-zA-Z0-9]+$/.test(value)) error = "Client number must be alphanumeric.";
         break;
       case "fname":
@@ -37,8 +37,8 @@ const ClientAddingForm = () => {
         if (!value) error = "Please select a preferred type.";
         break;
       case "maxrent":
-        if (value <= 0 || isNaN(value)) error = "Max rent must be a positive number.";  // Validation for maxrent
-        break;   
+        if (value <= 0 || isNaN(value)) error = "Max rent must be a positive number.";
+        break;
       default:
         break;
     }
@@ -66,19 +66,19 @@ const ClientAddingForm = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:8080/clients/add-client", clientData);
+      const response = await axios.post("http://localhost:8080/client/add-client", clientData);
       if (response.data.success) {
         alert("Client added successfully!");
         setClientData({
-          clientno: "CR201",
-          fname: "Tony",
-          lname: "Stark",
-          telephone: "5556789",
-          street: "10880 Malibu Point",
-          city: "Malibu",
-          email: "tony.stark@starkindustries.com",
-          preftype: "House",
-          maxrent: "1200"
+          clientNo: "",
+          fname: "",
+          lname: "",
+          telno: "",
+          street: "",
+          city: "",
+          email: "",
+          preftype: "",
+          maxrent: ""
         });
         setErrors({});
       }
@@ -91,21 +91,29 @@ const ClientAddingForm = () => {
     <div className="client-adding-container">
       <h2>Add New Client</h2>
       <form onSubmit={handleSubmit} className="client-form">
-        {["clientno", "first name", "last name", "telephone", "street", "city", "email"].map((field) => (
-          <div className="form-group" key={field}>
-            <label>{field.replace(/\b\w/g, (c) => c.toUpperCase())}:</label>
+        {[
+          { name: "clientNo", label: "Client No" },
+          { name: "fname", label: "First Name" },
+          { name: "lname", label: "Last Name" },
+          { name: "telno", label: "Telephone" },
+          { name: "street", label: "Street" },
+          { name: "city", label: "City" },
+          { name: "email", label: "Email", type: "email" }
+        ].map(({ name, label, type = "text" }) => (
+          <div className="form-group" key={name}>
+            <label>{label}:</label>
             <input
-              name={field}
-              value={clientData[field]}
+              name={name}
+              value={clientData[name]}
               onChange={handleChange}
+              type={type}
               required
             />
-            {errors[field] && <span className="error-message">{errors[field]}</span>}
+            {errors[name] && <span className="error-message">{errors[name]}</span>}
           </div>
         ))}
 
-         {/* Max Rent field */}
-         <div className="form-group">
+        <div className="form-group">
           <label>Max Rent:</label>
           <input
             type="number"
@@ -113,16 +121,18 @@ const ClientAddingForm = () => {
             value={clientData.maxrent}
             onChange={handleChange}
             required
-            className={errors.maxrent ? "error" : ""}
           />
           {errors.maxrent && <span className="error-message">{errors.maxrent}</span>}
         </div>
 
-
-       {/* Dropdown Menu */}
         <div className="form-group">
           <label>Preferred Type:</label>
-          <select name="preftype" value={clientData.preftype} onChange={handleChange} required>
+          <select
+            name="preftype"
+            value={clientData.preftype}
+            onChange={handleChange}
+            required
+          >
             <option value="">Select Preferred Type</option>
             <option value="Apartment">Apartment</option>
             <option value="Condo">Condo</option>

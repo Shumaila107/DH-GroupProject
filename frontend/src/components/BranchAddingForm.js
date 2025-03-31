@@ -24,9 +24,6 @@ const BranchAddingForm = () => {
       case "city":
         if (!/^[a-zA-Z\s]+$/.test(value)) error = "City should contain only alphabets and spaces.";
         break;
-      case "postcode":
-        if (!/^[A-Z]{1,2}\d[A-Z\d]? \d[A-Z]{2}$/.test(value)) error = "Invalid UK postcode format.";
-        break;
       default:
         break;
     }

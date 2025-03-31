@@ -1,94 +1,83 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import "./EditClient.css";  // Make sure the CSS file name is correctly linked
+import "./EditClient.css";
 
 const EditClient = () => {
-  const { clientId } = useParams(); // Get clientId from URL
+  const { clientId } = useParams();
   const navigate = useNavigate();
-  
+
   const [clientDetails, setClientDetails] = useState({
     clientno: "",
     fname: "",
     lname: "",
-    telephone: "",
+    telno: "",
     email: "",
-    address: "",
-    preftype: ""
+    street: "",
+    city: "",
+    preftype: "",
+    maxrent: ""
   });
-  
+
   const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(true); // To show loading state
-  
-  // Fetch client details based on clientId
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchClientDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/clients/${clientId}`);
+        const response = await axios.get(`http://localhost:8080/client/${clientId}`);
         setClientDetails(response.data);
-        setLoading(false);
       } catch (error) {
-        console.error('Error fetching client details:', error);
-        alert('Failed to fetch client details.');
+        console.error("Error fetching client:", error);
+        alert("Failed to fetch client details.");
+      } finally {
         setLoading(false);
       }
     };
+
     fetchClientDetails();
   }, [clientId]);
 
-  // Validation function
   const validateField = (name, value) => {
-    let error = "";
-    if (name === "telephone" && !/^\d+$/.test(value)) {
-      error = "Only numbers are allowed.";
-    } else if (name === "email" && !/\S+@\S+\.\S+/.test(value)) {
-      error = "Invalid email format.";
+    if (name === "telno" && !/^\d+$/.test(value)) {
+      return "Telephone must contain only digits.";
     }
-    return error;
+    if (name === "email" && !/\S+@\S+\.\S+/.test(value)) {
+      return "Invalid email format.";
+    }
+    return "";
   };
 
-  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setClientDetails({ ...clientDetails, [name]: value });
-
-    // Validate field and update errors
     const error = validateField(name, value);
-    setErrors({ ...errors, [name]: error });
+
+    setClientDetails(prev => ({ ...prev, [name]: value }));
+    setErrors(prev => ({ ...prev, [name]: error }));
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate all fields before submitting
     const newErrors = {};
-    ["telephone", "email"].forEach((field) => {
-      const error = validateField(field, clientDetails[field]);
-      if (error) newErrors[field] = error;
+    ["telno", "email"].forEach(field => {
+      const err = validateField(field, clientDetails[field]);
+      if (err) newErrors[field] = err;
     });
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-      alert("Please fix the highlighted errors.");
+      alert("Please fix validation errors.");
       return;
     }
 
     try {
-      const response = await axios.put(`http://localhost:8080/client/CR201`, {
-        telephone: clientDetails.telephone,
-        email: clientDetails.email,
-        address: clientDetails.address,
-        preftype: clientDetails.preftype
-      });
-
-      if (response.status === 200) {
-        alert("Client details updated successfully.");
-        navigate(`/clients`); // Redirect back to clients list
-      }
+      await axios.put(`http://localhost:8080/client/${clientId}`, clientDetails);
+      alert("Client updated successfully.");
+      navigate("/client");
     } catch (error) {
-      console.error('Error updating client:', error);
-      alert('Failed to update client details.');
+      console.error("Update error:", error);
+      alert("Failed to update client.");
     }
   };
 
@@ -97,13 +86,13 @@ const EditClient = () => {
       <h2>Edit Client Details</h2>
 
       {loading ? (
-        <p>Loading client details...</p>
+        <p>Loading client data...</p>
       ) : (
         <form onSubmit={handleSubmit}>
-          {/* Non-editable fields */}
+          {/* Read-only fields */}
           <div className="form-group">
             <label>Client No:</label>
-            <input type="text" value={clientDetails.clientno} disabled />
+            <input type="text" value={clientDetails.clientNo} disabled />
           </div>
           <div className="form-group">
             <label>First Name:</label>
@@ -114,49 +103,33 @@ const EditClient = () => {
             <input type="text" value={clientDetails.lname} disabled />
           </div>
 
-          {/* Editable fields */}
+          {/* Editable Fields */}
           <div className="form-group">
             <label>Telephone:</label>
-            <input
-              type="text"
-              name="telephone"
-              value={clientDetails.telephone}
-              onChange={handleChange}
-              required
-            />
-            {errors.telephone && <span style={{ color: "red" }}>{errors.telephone}</span>}
+            <input type="text" name="telno" value={clientDetails.telno} onChange={handleChange} />
+            {errors.telno && <span className="error">{errors.telno}</span>}
           </div>
 
           <div className="form-group">
             <label>Email:</label>
-            <input
-              type="email"
-              name="email"
-              value={clientDetails.email}
-              onChange={handleChange}
-              required
-            />
-            {errors.email && <span style={{ color: "red" }}>{errors.email}</span>}
+            <input type="text" name="email" value={clientDetails.email} onChange={handleChange} />
+            {errors.email && <span className="error">{errors.email}</span>}
           </div>
 
           <div className="form-group">
-            <label>Address:</label>
-            <input
-              type="text"
-              name="address"
-              value={clientDetails.address}
-              onChange={handleChange}
-            />
+            <label>Street:</label>
+            <input type="text" name="street" value={clientDetails.street} onChange={handleChange} />
+          </div>
+
+          <div className="form-group">
+            <label>City:</label>
+            <input type="text" name="city" value={clientDetails.city} onChange={handleChange} />
           </div>
 
           <div className="form-group">
             <label>Preferred Type:</label>
-            <select
-              name="preftype"
-              value={clientDetails.preftype}
-              onChange={handleChange}
-            >
-              <option value="">Select Type</option>
+            <select name="preftype" value={clientDetails.preftype} onChange={handleChange}>
+              <option value="">Select</option>
               <option value="Apartment">Apartment</option>
               <option value="Condo">Condo</option>
               <option value="House">House</option>
@@ -165,7 +138,12 @@ const EditClient = () => {
             </select>
           </div>
 
-          <button type="submit">Save Changes</button>
+          <div className="form-group">
+            <label>Max Rent:</label>
+            <input type="number" name="maxrent" value={clientDetails.maxrent} onChange={handleChange} />
+          </div>
+
+          <button type="submit" className="save-btn">Save Changes</button>
         </form>
       )}
     </div>

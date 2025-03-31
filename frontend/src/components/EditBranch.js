@@ -21,7 +21,7 @@ const EditBranch = () => {
   useEffect(() => {
     const fetchBranchDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/branch?branchNo=${branchNo}`);
+        const response = await axios.get(`http://localhost:8080/branch/${branchNo}`);
         setBranchDetails(response.data);
         setLoading(false);
       } catch (error) {
@@ -36,9 +36,7 @@ const EditBranch = () => {
   // Validation function
   const validateField = (name, value) => {
     let error = "";
-    if (name === "postcode" && !/^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/.test(value)) {
-      error = "Invalid UK postcode format.";
-    }
+    
     return error;
   };
 

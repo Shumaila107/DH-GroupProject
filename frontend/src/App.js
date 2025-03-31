@@ -29,7 +29,7 @@ function App() {
      {/* New routes for Client Management */}
       <Route path="/client" element={<ClientList />} />
       <Route path="/clients/add" element={<ClientAddingForm />} />
-      <Route path="/edit-client/N/A" element={<EditClient />} />    
+      <Route path="/edit-client/:clientId" element={<EditClient />} />    
     </Routes>
     </div>
   );

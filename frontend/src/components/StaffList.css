@@ -1,10 +1,11 @@
 .staff-container {
-    max-width: 1400px; /* Increased width */
-    margin: auto;
-    padding: 20px;
+    width: 99.5%;
+    padding: 30px 40px;
+    margin: 5px;
     text-align: center;
     font-family: 'Poppins', sans-serif;
     background-color: lavender;
+    box-sizing: border-box;
 }
 
 /* Hire New Staff Button */
@@ -19,6 +20,18 @@
     font-size: 16px;
     transition: background 0.3s ease-in-out;
 }
+.search-container {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  .search-container input {
+    padding: 10px;
+    width: 350px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
 
 .hire-button:hover {
     background-color: #0056b3;
@@ -87,4 +100,31 @@
     font-size: 18px;
     font-weight: bold;
     color: #333;
+}
+
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
+}
+
+.pagination button {
+    padding: 8px 14px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+.pagination button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
 }
