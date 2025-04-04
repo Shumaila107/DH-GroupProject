@@ -1,52 +1,68 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import "./BranchList.css"; // Import CSS styles
+import { useNavigate } from "react-router-dom";
+import BranchSearch from "./BranchSearch"; // Import the new component
+import "./BranchList.css";
 
 const BranchList = () => {
   const [branches, setBranches] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [searchQuery, setSearchQuery] = useState(""); // New state for search query
-  const navigate = useNavigate(); // For Navigation
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
+  const navigate = useNavigate();
 
+  // Initial data fetch
   useEffect(() => {
     fetchBranches();
   }, []);
 
   const fetchBranches = async () => {
-    setLoading(true); // Show loading indicator during API call
+    setLoading(true);
     try {
-      console.log("Fetching branch data...");
       const response = await axios.get("http://localhost:8080/branch");
-
-      console.log("API Response:", response.data); // Log API response
-
-      if (!Array.isArray(response.data)) {
-        throw new Error("Invalid API response: Expected an array");
-      }
-
-      //Normalize API response to match UI experience
       const formattedBranches = response.data.map((branch) => ({
         branchNo: branch.branchNo || "N/A",
         street: branch.street || "N/A",
         city: branch.city || "N/A",
         postcode: branch.postcode || "N/A",
       }));
-
       setBranches(formattedBranches);
-      setError(null); // Clear any previous errors
+      setError(null);
     } catch (error) {
-      console.error(
-        "Error fetching branch data:",
-        error.response?.data || error.message
-      );
-      setError("Failed to fetch branch data. Showing mock data.");
+      console.error("Error:", error.response?.data || error.message);
+      setError("Failed to fetch branch data");
     } finally {
       setLoading(false);
     }
+  };
+
+  // Search handler
+  const handleSearch = async (branchNo) => {
+    if (!branchNo) return;
+    
+    setLoading(true);
+    try {
+      const response = await axios.get(`http://localhost:8080/branch/${branchNo}`);
+      setBranches([response.data]); // Single result array
+      setCurrentPage(1);
+      setError(null);
+    } catch (error) {
+      if (error.response?.status === 404) {
+        alert("No branch found with that number");
+      } else {
+        setError("Search failed. Please try again.");
+      }
+      setBranches([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Clear search handler
+  const handleClearSearch = () => {
+    fetchBranches();
+    setCurrentPage(1);
   };
 
   const handleEdit = (branchNo) => {
@@ -54,35 +70,21 @@ const BranchList = () => {
   };
 
   const handleDelete = async (branchNo) => {
-    if (!window.confirm("Are you sure you want to delete this branch?"))
-      return;
-
+    if (!window.confirm("Are you sure you want to delete this branch?")) return;
+    
     try {
       await axios.delete(`http://localhost:8080/branch/${branchNo}`);
-      setBranches((prevBranches) =>
-        prevBranches.filter((branch) => branch.branchNo !== branchNo)
-      );
-      alert("Branch deleted successfully.");
+      setBranches(prev => prev.filter(branch => branch.branchNo !== branchNo));
+      alert("Branch deleted successfully");
     } catch (error) {
-      console.error("Error deleting branch:", error);
-      alert("Failed to delete branch.");
+      console.error("Error:", error);
+      alert("Failed to delete branch");
     }
   };
 
-  // New function to handle search input changes
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
-  // Filter branches based on search query
-  const filteredBranches = branches.filter((branch) =>
-    Object.values(branch).some((value) =>
-      value.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-  );
-
-  const totalPages = Math.ceil(filteredBranches.length / itemsPerPage);
-  const paginatedBranches = filteredBranches.slice(
+  // Pagination calculations
+  const totalPages = Math.ceil(branches.length / itemsPerPage);
+  const paginatedBranches = branches.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -90,17 +92,18 @@ const BranchList = () => {
   return (
     <div className="branch-container">
       <h1>Branch List</h1>
+      
       <div className="branch-actions">
-        <input
-          type="text"
-          placeholder="Search branches..."
-          value={searchQuery}
-          onChange={handleSearchChange}
-          className="branch-search-input"
+        <BranchSearch 
+          onSearch={handleSearch} 
+          onClear={handleClearSearch}
         />
-        <Link to="/branch/add">
-          <button className="add-branch-button">+ Add New Branch</button>
-        </Link>
+        <button 
+          className="add-branch-button"
+          onClick={() => navigate("/branch/add")}
+        >
+          + Add New Branch
+        </button>
       </div>
 
       {loading ? (
@@ -108,6 +111,7 @@ const BranchList = () => {
       ) : (
         <>
           {error && <div className="error-message">{error}</div>}
+          
           <table className="branch-table">
             <thead>
               <tr>
@@ -119,28 +123,44 @@ const BranchList = () => {
               </tr>
             </thead>
             <tbody>
-            {paginatedBranches.map((branch, index) => (
+              {paginatedBranches.map((branch, index) => (
                 <tr key={branch.branchNo} className={index % 2 === 0 ? "even-row" : "odd-row"}>
                   <td>{branch.branchNo}</td>
                   <td>{branch.street}</td>
                   <td>{branch.city}</td>
                   <td>{branch.postcode}</td>
                   <td>
-                    <button className="edit-btn" onClick={() => handleEdit(branch.branchNo)}>Edit</button>
-                    <button className="delete-btn" onClick={() => handleDelete(branch.branchNo)}>Delete</button>
+                    <button 
+                      className="edit-btn" 
+                      onClick={() => handleEdit(branch.branchNo)}
+                    >
+                      Edit
+                    </button>
+                    <button 
+                      className="delete-btn" 
+                      onClick={() => handleDelete(branch.branchNo)}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
 
-          {/* Pagination controls */}
+          {/* Pagination */}
           <div className="pagination">
-            <button onClick={() => setCurrentPage((p) => p - 1)} disabled={currentPage === 1}>
+            <button 
+              onClick={() => setCurrentPage(p => p - 1)} 
+              disabled={currentPage === 1}
+            >
               Prev
             </button>
             <span>Page {currentPage} of {totalPages}</span>
-            <button onClick={() => setCurrentPage((p) => p + 1)} disabled={currentPage === totalPages}>
+            <button 
+              onClick={() => setCurrentPage(p => p + 1)} 
+              disabled={currentPage === totalPages}
+            >
               Next
             </button>
           </div>
@@ -149,4 +169,5 @@ const BranchList = () => {
     </div>
   );
 };
+
 export default BranchList;

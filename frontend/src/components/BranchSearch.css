@@ -1,0 +1,30 @@
+.search-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .search-input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    flex: 1;
+  }
+  
+  .search-button, .clear-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .search-button {
+    background-color: #218838;
+    color: white;
+  }
+  
+  .clear-button {
+    background-color: #dc3545;
+    color: white;
+  }
+  
