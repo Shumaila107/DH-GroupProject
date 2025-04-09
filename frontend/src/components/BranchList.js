@@ -115,6 +115,7 @@ const BranchList = () => {
           <table className="branch-table">
             <thead>
               <tr>
+                <th>Row No</th>
                 <th>Branch No</th>
                 <th>Street</th>
                 <th>City</th>
@@ -125,6 +126,7 @@ const BranchList = () => {
             <tbody>
               {paginatedBranches.map((branch, index) => (
                 <tr key={branch.branchNo} className={index % 2 === 0 ? "even-row" : "odd-row"}>
+                  <td>{(currentPage - 1) * itemsPerPage + index + 1}</td> {/* Row number */}
                   <td>{branch.branchNo}</td>
                   <td>{branch.street}</td>
                   <td>{branch.city}</td>

@@ -92,6 +92,7 @@ const StaffList = () => {
           <table className="staff-table">
             <thead>
               <tr>
+                <th>Row No</th>
                 <th>Staff No</th><th>First Name</th><th>Last Name</th><th>Position</th>
                 <th>Branch No</th><th>DOB</th><th>Salary</th><th>Telephone</th>
                 <th>Mobile</th><th>Email</th><th>Sex</th><th>Actions</th>
@@ -100,6 +101,7 @@ const StaffList = () => {
             <tbody>
               {paginatedStaff.map((member, index) => (
                 <tr key={member.staffno} className={index % 2 === 0 ? 'even-row' : 'odd-row'}>
+                  <td>{(currentPage - 1) * itemsPerPage + index + 1}</td> {/* Row number */}
                   <td>{member.staffno}</td>
                   <td>{member.fname}</td>
                   <td>{member.lname}</td>

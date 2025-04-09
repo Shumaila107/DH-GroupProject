@@ -96,6 +96,7 @@ const ClientList = () => {
           <table className="client-table">
             <thead>
               <tr>
+                <th>Row No</th>
                 <th>Client No</th><th>First Name</th><th>Last Name</th><th>Telephone</th>
                 <th>Street</th><th>City</th><th>Email</th><th>Preferred Type</th><th>Max Rent</th><th>Actions</th>
               </tr>
@@ -103,6 +104,7 @@ const ClientList = () => {
             <tbody>
               {paginatedClients.map((client, index) => (
                 <tr key={client.clientNo} className={index % 2 === 0 ? 'even-row' : 'odd-row'}>
+                  <td>{(currentPage - 1) * itemsPerPage + index + 1}</td> {/* Row number */}
                   <td>{client.clientNo}</td>
                   <td>{client.fname}</td>
                   <td>{client.lname}</td>
